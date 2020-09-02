@@ -1,0 +1,5 @@
+This configuration broadly follows the guide on the FreeRadius wiki at https://wiki.freeradius.org/guide/eduroam
+
+It uses SQL as the backend and passwords must be NT-Passwords to get the best compatabilty while still being hashed.
+
+http://deployingradius.com/documents/protocols/compatibility.html
