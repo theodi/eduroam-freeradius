@@ -2,6 +2,7 @@
 # routed to your institution.  You will also need to register this
 # and your RADIUS server addresses with your NRO.
 operator_name = "theodi.org"
+local_auth = "eduroam.theodi.org"
 
 # The VLAN to assign eduroam visitors
 eduroam_default_guest_vlan = "0"
@@ -34,7 +35,7 @@ server default {
 		# You can make this condition as complex as you like, to 
 		# include additional subdomains just concatenate the conditions
 		# with &&.
-		if (&Stripped-User-Domain != "${operator_name}") {
+		if (&Stripped-User-Domain != "${local_auth}" && &Stripped-User-Domain != "${operator_name}")  {
 			update {
 				control:Load-Balance-Key := &Calling-Station-ID
 				control:Proxy-To-Realm := 'eduroam_flr'
@@ -55,7 +56,7 @@ server default {
 			updated = return
 		}
 
-#	sql
+		sql
 #	pap
 #	chap
 	}
@@ -93,8 +94,7 @@ server default {
 		# - Have the guest_vlan/local_vlan available to the controller,
                 #   or to all your access points.
 		# eduroam user traffic *MUST* be segregated, this is *NOT* optional.
-		sql
-
+		
 		update reply {
 			Tunnel-Type := VLAN
 			Tunnel-Medium-Type := IEEE-802
@@ -118,12 +118,12 @@ server default {
 			}
 		}
 
-		linelog_send_accept
-
 		Post-Auth-Type REJECT {
 			sql
 			attr_filter.access_reject
-			linelog_send_reject
 		}
+	
+		sql
+
 	}
 }

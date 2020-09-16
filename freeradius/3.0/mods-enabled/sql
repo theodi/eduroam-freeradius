@@ -1,0 +1,80 @@
+sql {
+	dialect = "mysql"
+	driver = "rlm_sql_${dialect}"
+	sqlite {
+		filename = "/tmp/freeradius.db"
+		busy_timeout = 200
+		bootstrap = "${modconfdir}/${..:name}/main/sqlite/schema.sql"
+	}
+
+	mysql {
+		warnings = auto
+	}
+
+	# Connection info:
+	#
+	server = "localhost"
+	port = 3306
+	login = "admin"
+	password = "password"
+	radius_db = "radiusdb"
+	
+	acct_table1 = "radacct"
+	acct_table2 = "radacct"
+
+	# Allow for storing data after authentication
+	postauth_table = "radpostauth"
+
+	# Tables containing 'check' items
+	authcheck_table = "radcheck"
+	groupcheck_table = "radgroupcheck"
+
+	# Tables containing 'reply' items
+	authreply_table = "radreply"
+	groupreply_table = "radgroupreply"
+
+	# Table to keep group info
+	usergroup_table = "radusergroup"
+
+	# If set to 'yes' (default) we read the group tables unless Fall-Through = no in the reply table.
+	# If set to 'no' we do not read the group tables unless Fall-Through = yes in the reply table.
+#	read_groups = yes
+
+	# If set to 'yes' (default) we read profiles unless Fall-Through = no in the groupreply table.
+	# If set to 'no' we do not read profiles unless Fall-Through = yes in the groupreply table.
+#	read_profiles = yes
+
+	# Remove stale session if checkrad does not see a double login
+	delete_stale_sessions = yes
+
+	# Write SQL queries to a logfile. This is potentially useful for tracing
+	# issues with authorization queries.  See also "logfile" directives in
+	# mods-config/sql/main/*/queries.conf.  You can enable per-section logging
+	# by enabling "logfile" there, or global logging by enabling "logfile" here.
+	#
+	# Per-section logging can be disabled by setting "logfile = ''"
+#	logfile = ${logdir}/sqllog.sql
+
+	#  Set the maximum query duration and connection timeout
+	#  for rlm_sql_mysql.
+#	query_timeout = 5
+
+	pool {
+		start = ${thread[pool].start_servers}
+		min = ${thread[pool].min_spare_servers}
+		max = ${thread[pool].max_servers}
+		spare = ${thread[pool].max_spare_servers}
+		uses = 0
+		retry_delay = 30
+		lifetime = 0
+		idle_timeout = 60
+	}
+
+	read_clients = yes
+	client_table = "nas"
+	group_attribute = "SQL-Group"
+
+	$INCLUDE ${modconfdir}/${.:name}/main/${dialect}/queries.conf
+
+	postauth_query = "INSERT INTO ${postauth_table}	(username, pass, reply, authdate) VALUES ('%{User-Name}', 'suppressed', %{reply:Packet-Type}', '%S');"
+}

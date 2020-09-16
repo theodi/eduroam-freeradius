@@ -3,3 +3,7 @@ This configuration broadly follows the guide on the FreeRadius wiki at https://w
 It uses SQL as the backend and passwords must be NT-Passwords to get the best compatabilty while still being hashed.
 
 http://deployingradius.com/documents/protocols/compatibility.html
+
+To install freeradius and get SQL working follow only those parts of this guide (do not do the PHP rubbish!)
+
+https://kifarunix.com/install-freeradius-with-daloradius-on-ubuntu-20-04/

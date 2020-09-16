@@ -4,6 +4,8 @@ It uses SQL as the backend and passwords must be NT-Passwords to get the best co
 
 http://deployingradius.com/documents/protocols/compatibility.html
 
+https://freeradius.org/radiusd/man/smbencrypt.html
+
 The tests are also in here along with a copy of eapol-test compiled x64 for ubuntu 20.04
 
 Obviously you need to go through everywhere and change the passwords!
