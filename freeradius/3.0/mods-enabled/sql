@@ -17,7 +17,7 @@ sql {
 	port = 3306
 	login = "admin"
 	password = "password"
-	radius_db = "radiusdb"
+	radius_db = "radius"
 	
 	acct_table1 = "radacct"
 	acct_table2 = "radacct"
