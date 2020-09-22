@@ -16,6 +16,9 @@ Either copy these from an existing server, or type *make* in the certs directory
 
 Guide is here: https://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu
 
+3. Configure the server at support.eduroam.uk! 
+
+
 # Notes
 
 It uses SQL as the backend and passwords must be NT-Passwords to get the best compatabilty while still being hashed.
