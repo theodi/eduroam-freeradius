@@ -4,7 +4,7 @@ This configuration broadly follows the guide on the FreeRadius wiki at https://w
 
 On Ubuntu you will also need
 
-`apt-get install freeradius mysql-server`
+`apt-get install freeradius freeradius-mysql mysql-server`
 
 ## Extra steps
 
